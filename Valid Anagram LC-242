@@ -1,0 +1,104 @@
+Given two strings s and t, return true if the two strings are anagrams of each other, otherwise return false.
+
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+Example 1:
+
+Input: s = "racecar", t = "carrace"
+
+Output: true
+Example 2:
+
+Input: s = "jar", t = "jam"
+
+Output: false
+Constraints:
+
+s and t consist of lowercase English letters.
+
+Code 1:
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length()){
+            return false;
+        }
+        HashMap<Character,Integer> smap = new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            smap.put(s.charAt(i),smap.getOrDefault(s.charAt(i),0)+1);
+        }
+        for(Map.Entry<Character,Integer> entry:smap.entrySet()){
+            char letter=entry.getKey();
+            int freq=entry.getValue();
+            int count=0;
+            for(int i=0;i<t.length();i++){
+                if(letter==t.charAt(i)){
+                    count++;
+                }
+            }
+            if(count!=freq){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+✅ Approach: Frequency count using a single `HashMap` and manual validation.
+🧠 Step 1: Build a `HashMap` to count the frequency of each character in string `s` using `getOrDefault()`.
+🔁 Step 2: For each character in the map, iterate through string `t` to count how often it appears.
+❌ Step 3: If the count in `t` doesn't match the count in `s`, return `false`.
+✅ Step 4: If all characters match in frequency, return `true`.
+
+⏱️ Time and Space Complexity:
+
+Time Complexity: O(n²) — because it scans string `t` for each unique character in `s`.
+Space Complexity: O(n) — for storing character frequencies of `s` in the map.
+
+⚖️ Pros and Cons:
+
+✅ Uses only one `HashMap` — space efficient.
+❌ Inefficient for long strings due to nested iteration.
+✅ Easy to understand and implement.
+🚫 Not the best choice for performance-critical scenarios.
+
+code 2 (Better solution using double hash map):
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length()){
+            return false;
+        }
+        HashMap<Character,Integer> smap = new HashMap<>();
+        HashMap<Character,Integer> tmap = new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            smap.put(s.charAt(i),smap.getOrDefault(s.charAt(i),0)+1);
+        }
+        for(int i=0;i<t.length();i++){
+            tmap.put(t.charAt(i),tmap.getOrDefault(t.charAt(i),0)+1);
+        }
+        return smap.equals(tmap);
+    }
+}
+
+✅ Approach: Frequency count using two HashMaps (one for each string)
+
+🧠 Step-by-Step:
+
+Step 1: Check if the lengths of `s` and `t` are equal. If not, return `false` immediately.
+Step 2: Create two `HashMaps`, one for string `s` and one for string `t`.
+Step 3: Loop through both strings simultaneously and populate the respective maps using `getOrDefault()` to count character frequencies.
+Step 4: Compare both maps using `.equals()`. If they match, return `true`; otherwise, return `false`.
+
+⏱️ Time and Space Complexity:
+
+Time Complexity: O(n) — each string is scanned only once.
+Space Complexity: O(n) — one map for `s` and one map for `t` (can be up to 2n space in worst case).
+
+⚖️ Pros and Cons:
+
+✅ Efficient — linear time complexity.
+✅ Clean and readable logic.
+✅ Scalable — works well for long strings.
+❌ Uses more space — maintains two hash maps.
+✅ Accurate — works for all character sets, including Unicode.
