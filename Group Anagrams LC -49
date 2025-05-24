@@ -1,0 +1,74 @@
+🔢 LeetCode Solution: Group Anagrams
+
+This repository contains classic LeetCode problem solved in **two approaches** — starting from brute force methods to more optimized and scalable solution.
+
+🧠 Problem : Group Anagrams
+
+Problem Statement:
+Given an array of strings, group anagrams together.
+
+✅ Approach 1: Character Frequency + Visited Flag
+
+```java
+public List<List<String>> groupAnagrams(String[] strs) {
+    ArrayList<List<String>> result = new ArrayList<>();
+    boolean[] visited = new boolean[strs.length];
+    for (int i = 0; i < strs.length; i++) {
+        if (visited[i]) continue;
+        List<String> group = new ArrayList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        group.add(strs[i]);
+        visited[i] = true;
+        for (char ch : strs[i].toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+        for (int j = i + 1; j < strs.length; j++) {
+            if (visited[j]) continue;
+            HashMap<Character, Integer> tempMap = new HashMap<>();
+            for (char ch : strs[j].toCharArray()) {
+                tempMap.put(ch, tempMap.getOrDefault(ch, 0) + 1);
+            }
+            if (map.equals(tempMap)) {
+                group.add(strs[j]);
+                visited[j] = true;
+            }
+        }
+        result.add(group);
+    }
+    return result;
+}
+```
+
+🔹 Time Complexity: O(n² * k)
+🔹 Space Complexity: O(n * k)
+🔹 Notes: Works but inefficient for large inputs — leads to TLE (Time Limit Exceeded).
+
+---
+
+✅ Approach 2: Sorted String Keys in HashMap
+
+```java
+public List<List<String>> groupAnagrams(String[] strs) {
+    HashMap<String, List<String>> map = new HashMap<>();
+    for (String s : strs) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        String key = new String(chars);
+        map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
+    }
+    return new ArrayList<>(map.values());
+}
+```
+
+🔹 Time Complexity: O(n * k log k)
+🔹 Space Complexity: O(n * k)
+🔹 Notes: The most efficient and scalable solution using sorted strings as keys.
+
+---
+
+🚀 Summary
+
+| Problem        | Approach       | Time Complexity | Space Complexity | Notes                   |
+| -------------- | -------------- | --------------- | ---------------- | ----------------------- |
+| Group Anagrams | Naive (TLE)    | O(n² \* k)      | O(n \* k)        | Fails on large input    |
+| Group Anagrams | HashMap + Sort | O(n \* k log k) | O(n \* k)        | Optimal and widely used |
