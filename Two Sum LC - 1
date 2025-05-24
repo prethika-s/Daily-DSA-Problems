@@ -1,0 +1,61 @@
+🔢 LeetCode Solution: Two Sum
+
+This repository contains classic LeetCode problem solved in **two approaches** — starting from brute force methods to more optimized and scalable solution.
+
+🧠 Problem : Two Sum
+
+Problem Statement:
+Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to the target.
+
+✅ Approach 1: Brute Force
+
+```java
+public int[] twoSum(int[] nums, int target) {
+    int[] result = new int[2];
+    for (int i = 0; i < nums.length; i++) {
+        for (int j = 0; j < nums.length; j++) {
+            if (i != j && nums[i] + nums[j] == target) {
+                result[0] = j;
+                result[1] = i;
+                break;
+            }
+        }
+    }
+    return result;
+}
+```
+🔹 Time Complexity: O(n²)
+🔹 Space Complexity: O(1)
+🔹 Notes: Simple and intuitive, but inefficient for large inputs.
+
+✅ Approach 2: HashMap Optimization
+
+```java
+public int[] twoSum(int[] nums, int target) {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    int[] result = new int[2];
+    for (int i = 0; i < nums.length; i++) {
+        map.put(nums[i], i);
+    }
+    for (int i = 0; i < nums.length; i++) {
+        int residue = target - nums[i];
+        if (map.containsKey(residue) && i != map.get(residue)) {
+            result[0] = i;
+            result[1] = map.get(residue);
+            break;
+        }
+    }
+    return result;
+}
+```
+
+🔹 Time Complexity: O(n)
+🔹 Space Complexity: O(n)
+🔹 Notes: Efficient and clean. Avoids nested loops by using a single-pass hash map lookup.
+
+🚀 Summary
+
+| Problem        | Approach       | Time Complexity | Space Complexity | Notes                   |
+| -------------- | -------------- | --------------- | ---------------- | ----------------------- |
+| Two Sum        | Brute Force    | O(n²)           | O(1)             | Simple but slow         |
+| Two Sum        | HashMap        | O(n)            | O(n)             | Fast and clean          |
