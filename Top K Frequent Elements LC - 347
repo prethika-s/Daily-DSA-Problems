@@ -1,0 +1,151 @@
+Given an integer array nums and an integer k, return the k most frequent elements within the array.
+
+The test cases are generated such that the answer is always unique.
+
+You may return the output in any order.
+
+Example 1:
+
+Input: nums = [1,2,2,3,3,3], k = 2
+
+Output: [2,3]
+
+Example 2:
+
+Input: nums = [7,7], k = 1
+
+Output: [7]
+
+Constraints:
+
+1 <= nums.length <= 10^4.
+-1000 <= nums[i] <= 1000
+1 <= k <= number of distinct elements in nums.
+
+✅ Solution 1:
+
+```java
+public class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+        }
+
+        int capacity = map.size();
+        int[][] array = new int[capacity][2];
+        int i = 0;
+        PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            array[i][0] = entry.getKey();
+            array[i][1] = entry.getValue();
+            heap.add(entry.getValue());
+            i++;
+        }
+
+        int[] result = new int[k];
+        for(i=0;i<k;i++){
+            int pivot = heap.poll();
+            for(int j=0;j<array.length;j++){
+                if(array[j][1]==pivot && array[j][0]!=Integer.MIN_VALUE){
+                    result[i]=array[j][0];
+                    array[j][1]=-1;
+                    array[j][0]=Integer.MIN_VALUE;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+}
+```
+
+---
+
+✅ Approach:
+
+* Use a `HashMap` to count frequencies of elements in `nums`.
+* Stores key-value pairs in a 2D array (`[element][frequency]`).
+* Pushes all frequencies into a max-heap (`PriorityQueue` in reverse order).
+* Pops the top `k` frequencies and finds corresponding elements in the array.
+* Marks used elements to avoid duplicates in result.
+
+---
+
+⏱️ Time & Space Complexity:
+
+* Time: O(n log n) — heap operations + array scan per frequency.
+* Space: O(n) — HashMap + array + heap.
+
+---
+
+### ⚖️ Pros & Cons:
+
+| ✅ Pros                                      | ❌ Cons                                                      |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| Correct & uses `getOrDefault`                | Slightly more verbose due to 2D array usage                   |
+| Works with all values, handles duplicates    | Matching frequency manually is less clean than map comparison |
+| Uses max-heap to prioritize higher frequency | Marking elements with `Integer.MIN_VALUE` is a bit hacky      |
+
+---
+
+✅ Solution 2:
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> heap =
+            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            heap.offer(entry);
+            if (heap.size() > k) {
+                heap.poll();
+            }
+        }
+
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = heap.poll().getKey();
+        }
+
+        return result;
+    }
+}
+```
+
+---
+
+✅ Approach:
+
+* Build a frequency map using `HashMap`.
+* Use a min-heap of size `k` to maintain top `k` frequent elements.
+* For each entry in the map, add it to the heap and remove smallest if size > `k`.
+* Pop from the heap and collect the keys as the result.
+
+---
+
+⏱️Time & Space Complexity:
+
+* Time: O(n log k) — heap holds at most `k` elements.
+* Space: O(n) — map and heap.
+
+---
+
+⚖️ Pros & Cons:
+
+| ✅ Pros                               |  ❌ Cons                                |
+| ------------------------------------- | ---------------------------------------- |
+| Clean, readable, and concise          | Uses `Map.Entry` and comparator          |
+| Very efficient for large `nums` array | May confuse beginners with lambda syntax |
+| Heap size fixed — better performance  | Cannot control output order exactly      |
+
+---
