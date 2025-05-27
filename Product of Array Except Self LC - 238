@@ -1,0 +1,113 @@
+Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
+
+Each product is guaranteed to fit in a 32-bit integer.
+
+Example 1:
+
+Input: nums = [1,2,4,6]
+Output: [48,24,12,8]
+
+Example 2:
+
+Input: nums = [-1,0,1,2,3]
+Output: [0,-6,0,0,0]
+
+Constraints:
+
+2 <= nums.length <= 1000
+-20 <= nums[i] <= 20
+
+✅ `Brute Force` Solution
+
+📄 Code:
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int[] result = new int[nums.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = 1;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i == j) continue;
+                result[i] *= nums[j];
+            }
+        }
+        return result;
+    }
+}
+```
+
+✅ Approach (in points):
+
+* Initialize a result array with all `1`s.
+* For each index `i`, multiply all elements of `nums` except `nums[i]`.
+* Use nested loops to skip multiplying `nums[i]` with itself.
+
+⏱️ Time and Space Complexity:
+
+* Time: `O(n^2)` — nested loop for each element.
+* Space: `O(1)` (excluding the result array).
+
+⚖️ Pros & Cons:
+
+| ✅ Pros                        | ❌ Cons                         |
+| ----------------------------- | ------------------------------ |
+| Simple and easy to understand | Very inefficient for large `n` |
+| No extra arrays used          | Not optimal, fails time limits |
+
+
+✅ `Optimized Prefix-Postfix` Solution
+
+📄 Code:
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int[] prefix = new int[nums.length];
+        int[] postfix = new int[nums.length];
+
+        prefix[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            prefix[i] = prefix[i - 1] * nums[i];
+        }
+
+        postfix[nums.length - 1] = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            postfix[i] = postfix[i + 1] * nums[i];
+        }
+
+        int[] result = new int[nums.length];
+        result[0] = postfix[1];
+        result[nums.length - 1] = prefix[nums.length - 2];
+
+        for (int i = 1; i < nums.length - 1; i++) {
+            result[i] = prefix[i - 1] * postfix[i + 1];
+        }
+
+        return result;
+    }
+}
+```
+✅ Approach (in points):
+
+* Build two arrays:
+* `prefix[i]` = product of all elements before `i`
+* `postfix[i]` = product of all elements after `i`
+* The final answer at index `i` = `prefix[i - 1] * postfix[i + 1]`
+* Handle the edge cases for first and last elements separately.
+
+⏱️ Time and Space Complexity:
+
+* Time: O(n)
+* Space: O(n) (due to extra prefix and postfix arrays)
+
+⚖️ Pros & Cons:
+
+| ✅ Pros                                | ❌ Cons                                        |
+| -------------------------------------- | ----------------------------------------------- |
+| Efficient and linear in time           | Uses extra space (`O(n)`)                       |
+| No division used (good for edge cases) | Slightly more complex logic                     |
+| Good performance for large inputs      | Can be optimized to `O(1)` space using one pass |
+
