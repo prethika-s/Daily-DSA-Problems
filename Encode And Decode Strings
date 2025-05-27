@@ -1,0 +1,81 @@
+✅ Problem Statement:
+
+Design an algorithm to encode a list of strings to a single string, and decode that single string back to the original list of strings.
+
+📄 Code:
+
+```java
+class Solution {
+
+    public String encode(List<String> strs) {
+        StringBuilder str = new StringBuilder();
+        for (String sub : strs) {
+            str.append(sub.length());
+            str.append('#');
+            str.append(sub);
+        }
+        return str.toString();
+    }
+
+    public List<String> decode(String str) {
+        List<String> res = new ArrayList<>();
+        int i = 0;
+        while (i < str.length()) {
+            int j = i;
+            while (str.charAt(j) != '#') j++;
+            int len = Integer.parseInt(str.substring(i, j));
+            j++;
+            res.add(str.substring(j, j + len));
+            i = j + len;
+        }
+        return res;
+    }
+}
+```
+
+✅ Approach (in points):
+
+* Encode:
+
+  * For each string `s` in the list:
+  * Append its length followed by `#` and then the string itself.
+  * Use a `StringBuilder` for efficient string concatenation.
+
+* Decode:
+
+  * Traverse the encoded string.
+  * Extract the length of each string before `#`.
+  * Then slice the actual string of that length.
+  * Continue until the end of the encoded string.
+
+---
+
+⏱️ Time and Space Complexity:
+
+| Method   | Time Complexity | Space Complexity |
+| -------- | --------------- | ---------------- |
+| `encode` | O(N)            | O(N)             |
+| `decode` | O(N)            | O(N)             |
+
+Where `N` is the total number of characters in all strings.
+
+---
+
+⚖️ Pros & Cons:
+
+| ✅ Pros                                   | ❌ Cons                                  |
+| ----------------------------------------- | ----------------------------------------- |
+| Handles all UTF-8 characters safely       | Relies on `#` not appearing in the length |
+| Efficient for both small and large inputs | Needs valid formatted string in `decode`  |
+| Clean and concise implementation          | None significant in a valid input         |
+
+---
+
+✅ Test Cases to Verify:
+
+```java
+List<String> input1 = Arrays.asList("neet", "code", "love", "you");
+List<String> input2 = Arrays.asList("we", "say", ":", "yes");
+List<String> input3 = Arrays.asList("", "", ""); // Empty strings
+List<String> input4 = Arrays.asList(); // Empty list
+```
