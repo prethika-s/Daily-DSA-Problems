@@ -1,0 +1,90 @@
+📄 Problem Statement
+Given an array `arr[]` and a target integer, determine if there exists a triplet `(arr[i], arr[j], arr[k])` such that the sum of the three elements equals the target value.
+Return `true` if such a triplet exists, otherwise return `false`.
+
+---
+
+🧪 Examples
+
+✅ Input: `arr = [1, 4, 45, 6, 10, 8]`, `target = 13`
+✅ Output: `true`
+✅ Explanation: Triplet {1, 4, 8} sums to 13.
+
+✅ Input: `arr = [1, 2, 4, 3, 6, 7]`, `target = 10`
+✅ Output: `true`
+✅ Explanation: Triplets {1, 3, 6} and {1, 2, 7} both work.
+
+✅ Input: `arr = [40, 20, 10, 3, 6, 7]`, `target = 24`
+❌ Output: `false`
+❌ Explanation: No triplet in the array sums to 24.
+
+---
+
+📌 Constraints
+
+* `3 ≤ arr.length ≤ 10^3`
+* `1 ≤ arr[i] ≤ 10^5`
+
+---
+
+✅ Optimal Approach: Sorting + Two Pointers
+
+🧠 Idea
+
+1. Sort the array.
+2. Fix one element at index `i`.
+3. Use two pointers `j` (i+1) and `k` (end of array) to find if there's a pair such that `arr[i] + arr[j] + arr[k] == target`.
+4. If the sum is less than target, move `j++`.
+5. If the sum is greater than target, move `k--`.
+6. If equal, return `true`.
+
+📦 Code
+
+```java
+class Solution {
+    public static boolean hasTripletSum(int arr[], int target) {
+        Arrays.sort(arr);
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0 && arr[i] == arr[i - 1]) continue;
+            int j = i + 1;
+            int k = arr.length - 1;
+            while (j < k) {
+                int total = arr[i] + arr[j] + arr[k];
+                if (total < target) {
+                    j++;
+                } else if (total > target) {
+                    k--;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+```
+
+---
+
+🆚 Comparison of Approaches
+
+| Approach              | Time Complexity | Space Complexity | Notes                     |
+| --------------------- | --------------- | ---------------- | ------------------------- |
+| Brute Force (3 loops) | O(n³)           | O(1)             | Too slow for large arrays |
+| ✅ Two Pointers        | O(n²)           | O(1)             | Efficient and optimal     |
+
+---
+
+✅ Pros
+
+* Efficient for arrays up to 10^3 size.
+* Handles duplicate elements gracefully.
+
+❌ Cons
+
+* Modifies the input array by sorting it.
+* Still quadratic time — not suitable for arrays of size > 10^5.
+
+---
+
+📌 Tip: Always consider the **two-pointer pattern** after sorting for problems involving pair or triplet sums!
