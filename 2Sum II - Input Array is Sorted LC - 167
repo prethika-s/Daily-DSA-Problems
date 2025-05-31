@@ -1,0 +1,89 @@
+📄 Problem Statement
+Given a **1-indexed sorted array** of integers `numbers[]` and an integer `target`, return the indices of the **two numbers** such that they add up to `target`.
+
+You must use only constant extra space and the solution must use the **two-pointer approach**.
+
+---
+
+🧪 Examples
+
+✅ Input: `numbers = [2, 7, 11, 15]`, `target = 9`
+✅ Output: `[1, 2]`
+✅ Explanation: `2 + 7 = 9`
+
+✅ Input: `numbers = [1, 2, 3, 4, 4, 9, 56, 90]`, `target = 8`
+✅ Output: `[4, 5]`
+
+---
+
+📌 Constraints
+
+* `2 <= numbers.length <= 3 * 10⁴`
+* `-1000 <= numbers[i] <= 1000`
+* `numbers` is sorted in **non-decreasing** order.
+* `1 <= target <= 2000`
+* Exactly **one solution** exists.
+
+---
+
+⚡ Optimal Two-Pointer Approach
+
+🧠 Idea
+
+* Start with two pointers: `first = 0` and `last = numbers.length - 1`
+* Move pointers inward based on the sum compared to the target
+
+  * If sum < target → move `first` forward
+  * If sum > target → move `last` backward
+  * If sum == target → return the 1-indexed positions
+
+📦 Code
+
+```java
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int[] result = new int[2];
+        int first = 0;
+        int last = numbers.length - 1;
+        while (first < last) {
+            int total = numbers[first] + numbers[last];
+            if (total < target) {
+                first++;
+            } else if (total > target) {
+                last--;
+            } else {
+                result[0] = first + 1;
+                result[1] = last + 1;
+                return result;
+            }
+        }
+        return result;
+    }
+}
+```
+
+---
+
+📊 Complexity Analysis
+
+| Metric              | Value |
+| ------------------- | ----- |
+| ⏱️ Time Complexity  | O(n)  |
+| 🧠 Space Complexity | O(1)  |
+
+---
+
+✅ Pros
+
+* Extremely efficient: linear time, constant space
+* Simple logic using two-pointer technique
+* Perfect for sorted arrays
+
+❌ Cons
+
+* Only works when input is **sorted**
+* Not reusable for unsorted arrays without preprocessing
+
+---
+
+📌 **Tip**: For **unsorted input**, use a **HashMap** to store seen values and check for complements in `O(n)` time with `O(n)` space.
