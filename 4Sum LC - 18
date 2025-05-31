@@ -1,0 +1,132 @@
+📄 Problem Statement
+Given an array `nums[]` and a target integer, return **all unique quadruplets** `(nums[a], nums[b], nums[c], nums[d])` such that:
+
+```
+nums[a] + nums[b] + nums[c] + nums[d] == target
+```
+
+You must return the **list of all such quadruplets** without duplicates.
+
+---
+
+🧪 Examples
+
+✅ Input: `nums = [1, 0, -1, 0, -2, 2]`, `target = 0`
+✅ Output: `[[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]`
+
+✅ Input: `nums = [2, 2, 2, 2, 2]`, `target = 8`
+✅ Output: `[[2, 2, 2, 2]]`
+
+---
+
+📌 Constraints
+
+* `1 <= nums.length <= 200`
+* `-10^9 <= nums[i] <= 10^9`
+* `-10^9 <= target <= 10^9`
+
+---
+
+🐢 Brute Force Approach
+
+🧠 Idea
+Use four nested loops to check every possible quadruplet combination and add it if the sum matches the target.
+
+📦 Code
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        ArrayList<List<Integer>> result = new ArrayList<>();
+        for(int i=0; i<nums.length; i++){
+            for(int j=i+1; j<nums.length; j++){
+                for(int k=j+1; k<nums.length; k++){
+                    for(int l=k+1; l<nums.length; l++){
+                        int total = nums[i] + nums[j] + nums[k] + nums[l];
+                        if(total == target) {
+                            ArrayList<Integer> sub = new ArrayList<>();
+                            sub.add(nums[i]);
+                            sub.add(nums[j]);
+                            sub.add(nums[k]);
+                            sub.add(nums[l]);
+                            Collections.sort(sub);
+                            if(!result.contains(sub)){
+                                result.add(sub);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
+```
+
+---
+
+🚀 Optimized Approach using HashSet
+
+🧠 Idea
+
+1. Sort the array to handle duplicates easily.
+2. Use two nested loops to fix two numbers.
+3. Use a hash set to check if the remaining two elements form the required sum.
+
+📦 Code
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                Set<Long> set = new HashSet<>();
+                for (int k = j + 1; k < nums.length; k++) {
+                    long sum = (long) nums[i] + nums[j] + nums[k];
+                    long required = (long) target - sum;
+
+                    if (set.contains(required)) {
+                        List<Integer> quad = Arrays.asList(nums[i], nums[j], nums[k], (int) required);
+                        Collections.sort(quad);
+                        if (!result.contains(quad)) {
+                            result.add(quad);
+                        }
+                    }
+
+                    set.add((long) nums[k]);
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+---
+
+🆚 Comparison of Approaches
+
+| Approach                     | Time Complexity     | Space Complexity | Notes                             |
+| ---------------------------- | ------------------- | ---------------- | --------------------------------- |
+| 🐢 Brute Force (4 loops)     | O(n⁴)               | O(n)             | Very slow, just for understanding |
+| 🚀 Optimized (2 loops + set) | O(n³ log n) (worst) | O(n)             | Better, avoids duplicates smartly |
+
+---
+
+✅ Pros
+
+* Handles duplicate combinations efficiently.
+* Uses sorting + hashing for reduced overhead.
+
+❌ Cons
+
+* Still cubic time — may not scale for large arrays.
+* Does not use two-pointer for final 2-sum optimization (which can bring it down slightly).
+
+---
+
+📌 **Tip**: Consider using **two-pointer technique** within the inner loop (after sorting) to optimize further from `O(n³)` to `O(n²)` in the classic 4-sum optimized approach!
