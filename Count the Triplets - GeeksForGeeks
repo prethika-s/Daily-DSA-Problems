@@ -1,0 +1,116 @@
+🔢 Count the Triplets
+
+🚨 Problem Statement
+
+Given an array `arr`, count the number of distinct triplets `(a, b, c)` such that:
+`a + b = c`
+
+Each triplet is counted only once, regardless of the order of `a` and `b`.
+Even if the same number appears multiple times in the array, a valid triplet should be counted only once per unique combination.
+
+---
+
+📥 Input
+
+* `arr[] = [1, 5, 3, 2]`
+
+🎯 Output
+
+* `2`
+  Explanation: Valid triplets are `(1,2,3)` and `(3,2,5)`
+
+---
+
+🧠 Constraints
+
+* `1 ≤ arr.length ≤ 10^3`
+* `1 ≤ arr[i] ≤ 10^5`
+
+---
+
+🛠️ Method Used
+
+* **Brute Force**: Check all combinations of three elements using triple nested loops.
+* **Optimized (Two Pointers)**: Sort the array and fix the third element. Use two pointers to find a valid pair for each fixed element.
+
+---
+
+🐢 Brute Force Approach
+
+```java
+class Solution {
+    int countTriplet(int arr[]) {
+        Arrays.sort(arr);
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                int sum = arr[i] + arr[j];
+                for (int k = j + 1; k < arr.length; k++) {
+                    if (arr[k] == sum) {
+                        count++;
+                        break;
+                    } else if (arr[k] > sum) {
+                        break;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+}
+```
+
+⏱️ Time Complexity
+
+* `O(n^3)` – three nested loops.
+
+💾 Space Complexity
+
+* `O(1)`
+
+---
+
+⚡ Optimized Approach (Two Pointers)
+
+```java
+class Solution {
+    int countTriplet(int arr[]) {
+        Arrays.sort(arr);
+        int count = 0;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int first = 0;
+            int last = i - 1;
+            while (first < last) {
+                int sum = arr[first] + arr[last];
+                if (sum == arr[i]) {
+                    count++;
+                    first++;
+                    last--;
+                } else if (sum < arr[i]) {
+                    first++;
+                } else {
+                    last--;
+                }
+            }
+        }
+        return count;
+    }
+}
+```
+
+⏱️ Time Complexity
+
+* `O(n^2)` – efficient for sorted arrays.
+
+💾 Space Complexity
+
+* `O(1)`
+
+---
+
+✅ Summary
+
+* ✅ Brute force approach is simple but inefficient for large arrays.
+* ⚡ Two-pointer technique significantly optimizes the solution with less complexity.
+* 🧠 Always sort the array first to enable the two-pointer method.
+
