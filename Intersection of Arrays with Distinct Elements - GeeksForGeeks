@@ -1,0 +1,100 @@
+🔢 Intersection of Arrays with Distinct Elements
+
+🚨 Problem Statement
+
+Given two unsorted integer arrays `a[]` and `b[]`, each consisting of **distinct elements**, return the count of elements present in the intersection of the two arrays. The intersection contains only those elements which are common to both arrays.
+
+---
+
+📥 Input
+
+* `a[] = [89, 24, 75, 11, 23]`
+* `b[] = [89, 2, 4]`
+
+🎯 Output
+
+* `1`
+  Explanation: Only `89` is common in both arrays.
+
+---
+
+📥 Input
+
+* `a[] = [1, 2, 4, 3, 5, 6]`
+* `b[] = [3, 4, 5, 6, 7]`
+
+🎯 Output
+
+* `4`
+  Explanation: Common elements are `3, 4, 5, 6`.
+
+---
+
+📥 Input
+
+* `a[] = [20, 10, 30, 50, 40]`
+* `b[] = [15, 25, 30, 20, 35]`
+
+🎯 Output
+
+* `2`
+  Explanation: Common elements are `20, 30`.
+
+---
+
+🧠 Constraints
+
+* `1 ≤ a.length, b.length ≤ 10^5`
+* `1 ≤ a[i], b[i] ≤ 10^5`
+
+---
+
+🛠️ Method Used
+
+* Use a `HashMap` (or `HashSet`) to store frequencies of elements from both arrays.
+* Iterate over the combined entries and count those with frequency > 1, which means present in both arrays.
+* Return this count.
+
+---
+
+💻 Code (Java)
+
+```java
+class Solution {
+    public static int numberofElementsInIntersection(int a[], int b[]) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : a) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num : b) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int count = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            int freq = entry.getValue();
+            if (freq > 1) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+```
+
+---
+
+⏱️ Time Complexity
+
+* `O(n + m)` where `n` and `m` are lengths of arrays `a` and `b`.
+
+💾 Space Complexity
+
+* `O(n + m)` for storing elements in the hashmap.
+
+---
+
+✅ Summary
+
+* Efficiently find intersection count by using a frequency map.
+* Only counts elements that appear in both arrays.
+* Handles large arrays with linear time complexity.
