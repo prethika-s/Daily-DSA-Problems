@@ -1,0 +1,92 @@
+🔢 Union of Two Arrays
+
+🚨 Problem Statement
+
+Given two arrays `a[]` and `b[]`, find the number of distinct elements in the union of these two arrays. The union contains all unique elements from both arrays.
+
+---
+
+📥 Input
+
+* `a[] = [1, 2, 3, 4, 5]`
+* `b[] = [1, 2, 3]`
+
+🎯 Output
+
+* `5`
+  Explanation: Union set is `{1, 2, 3, 4, 5}`
+
+---
+
+📥 Input
+
+* `a[] = [85, 25, 1, 32, 54, 6]`
+* `b[] = [85, 2]`
+
+🎯 Output
+
+* `7`
+  Explanation: Union set is `{85, 25, 1, 32, 54, 6, 2}`
+
+---
+
+📥 Input
+
+* `a[] = [1, 2, 1, 1, 2]`
+* `b[] = [2, 2, 1, 2, 1]`
+
+🎯 Output
+
+* `2`
+  Explanation: Distinct elements are `{1, 2}`
+
+---
+
+🧠 Constraints
+
+* `1 ≤ a.length, b.length ≤ 10^6`
+* `0 ≤ a[i], b[i] ≤ 10^5`
+
+---
+
+🛠️ Method Used
+
+* Use a `HashMap` or `HashSet` to track distinct elements from both arrays.
+* Insert all elements from `a` and `b` into the map or set.
+* Return the size of the map/set which corresponds to the number of unique elements.
+
+---
+
+💻 Code (Java)
+
+```java
+class Solution {
+    public static int findUnion(int a[], int b[]) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : a) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int num : b) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return map.size();
+    }
+}
+```
+
+---
+
+⏱️ Time Complexity
+
+* `O(n + m)`, where `n` and `m` are the sizes of arrays `a` and `b`.
+
+💾 Space Complexity
+
+* `O(n + m)` for storing distinct elements in the map.
+
+---
+
+✅ Summary
+
+* Efficiently find the union by using a hash-based data structure.
+* Works well even for large arrays due to linear time complexity.
