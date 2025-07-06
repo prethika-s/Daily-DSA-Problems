@@ -1,15 +1,15 @@
-### 📄 `lengthOfLastWord.java`
+📄 lengthOfLastWord.java
 
-#### ✅ Problem Statement:
+✅ Problem Statement:
 
 Given a string `s` consisting of words and spaces, return the **length of the last word** in the string.
 A word is defined as a maximal substring consisting of non-space characters only.
 
 ---
 
-#### 🧠 Method Used:
+🧠 Method Used:
 
-**Reverse Iteration with Flag Check**
+Reverse Iteration with Flag Check
 
 * Start iterating from the end of the string.
 * Skip trailing spaces.
@@ -18,7 +18,7 @@ A word is defined as a maximal substring consisting of non-space characters only
 
 ---
 
-#### 🧪 Example Test Cases:
+🧪 Example Test Cases:
 
 | Input                           | Output | Explanation             |
 | ------------------------------- | ------ | ----------------------- |
@@ -30,9 +30,9 @@ A word is defined as a maximal substring consisting of non-space characters only
 
 ---
 
-#### 🧩 Algorithm:
+🧩 Algorithm:
 
-```java
+java
 class Solution {
     public int lengthOfLastWord(String s) {
         int count = 0;
@@ -52,19 +52,19 @@ class Solution {
 
 ---
 
-#### ⏱️ Time Complexity:
+⏱️ Time Complexity:
 
-* **O(n)**, where `n` is the length of the string
+* O(n), where `n` is the length of the string
   → Worst-case: full string traversal from end to start.
 
-#### 🧠 Space Complexity:
+🧠 Space Complexity:
 
-* **O(1)**
+* O(1)
   → No extra data structures used, only primitive variables.
 
 ---
 
-#### 📌 Constraints:
+📌 Constraints:
 
 * 1 <= s.length <= 10⁴
 * `s` consists only of English letters and spaces ' '
