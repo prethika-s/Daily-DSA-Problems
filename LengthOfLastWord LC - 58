@@ -1,0 +1,71 @@
+### 📄 `lengthOfLastWord.java`
+
+#### ✅ Problem Statement:
+
+Given a string `s` consisting of words and spaces, return the **length of the last word** in the string.
+A word is defined as a maximal substring consisting of non-space characters only.
+
+---
+
+#### 🧠 Method Used:
+
+**Reverse Iteration with Flag Check**
+
+* Start iterating from the end of the string.
+* Skip trailing spaces.
+* Once a non-space character is found, start counting until a space is encountered again.
+* Use a boolean flag to indicate when counting should start.
+
+---
+
+#### 🧪 Example Test Cases:
+
+| Input                           | Output | Explanation             |
+| ------------------------------- | ------ | ----------------------- |
+| `"Hello World"`                 | `5`    | Last word is `"World"`  |
+| `"   fly me   to   the moon  "` | `4`    | Last word is `"moon"`   |
+| `"luffy is still joyboy"`       | `6`    | Last word is `"joyboy"` |
+| `"a"`                           | `1`    | Last word is `"a"`      |
+| `"day  "`                       | `3`    | Last word is `"day"`    |
+
+---
+
+#### 🧩 Algorithm:
+
+```java
+class Solution {
+    public int lengthOfLastWord(String s) {
+        int count = 0;
+        boolean flag = false;
+        for(int index = s.length() - 1; index >= 0; index--) {
+            if (s.charAt(index) != ' ') {
+                count++;
+                flag = true;
+            } else if (flag) {
+                break;
+            }
+        }
+        return count;
+    }
+}
+```
+
+---
+
+#### ⏱️ Time Complexity:
+
+* **O(n)**, where `n` is the length of the string
+  → Worst-case: full string traversal from end to start.
+
+#### 🧠 Space Complexity:
+
+* **O(1)**
+  → No extra data structures used, only primitive variables.
+
+---
+
+#### 📌 Constraints:
+
+* 1 <= s.length <= 10⁴
+* `s` consists only of English letters and spaces ' '
+* There is at least one word in the string
