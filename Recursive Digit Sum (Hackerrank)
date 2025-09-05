@@ -1,0 +1,30 @@
+Recursive Digit Sum (Hackerrank)  
+
+**Question:**  
+Given an integer represented as a string `n` and an integer `k`, construct a new number `p` by concatenating the string `n` `k` times. The *super digit* of `p` is defined as the recursive sum of digits until only one digit remains. Find the super digit.  
+
+**Code:**  
+```java
+class Solution {
+    public static int superDigit(String n, int k) {
+        if (n.length() == 1) {
+            return n.charAt(0) - '0';
+        }
+        long sum = 0;
+        if (k != 0) {
+            for (char c : n.toCharArray()) {
+                sum += c - '0';
+            }
+            sum *= k;
+        } else {
+            for (char c : n.toCharArray()) {
+                sum += c - '0';
+            }
+        }
+        String newN = Long.toString(sum);
+        return superDigit(newN, 0);
+    }
+}
+Time Complexity: O(d · logN)
+Space Complexity: O(logN)
+
