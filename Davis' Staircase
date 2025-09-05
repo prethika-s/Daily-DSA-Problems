@@ -1,0 +1,43 @@
+📍 Problem : Davis’ Staircase (Hackerrank)
+
+Question:
+A child is running up a staircase with n steps and can hop either 1, 2, or 3 steps at a time. Count the number of ways the child can reach the top. Return the result modulo 10000000007.
+
+❌ Recursive (TLE for large n)
+class Solution {
+    public int staircaseRecursive(int n) {
+        if (n == 0) return 1;
+        if (n < 0) return 0;
+        return staircaseRecursive(n - 1) 
+             + staircaseRecursive(n - 2) 
+             + staircaseRecursive(n - 3);
+    }
+}
+
+
+Time Complexity: O(3^n)
+Space Complexity: O(n)
+
+✅ Dynamic Programming (Optimized)
+class Solution {
+    public long staircaseDP(int n) {
+        if(n<=2){
+          return n;
+        }
+        if(n==3){
+          return 4;
+        }
+        long[] dp = new long[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 4;
+        for (int i = 4; i <= n; i++) {
+          dp[i] = dp[i-1] + dp[i-2] + dp[i-3]; 
+        }
+        return dp[n];
+    }
+}
+
+
+Time Complexity: O(n)
+Space Complexity: O(n) (can be optimized to O(1))
