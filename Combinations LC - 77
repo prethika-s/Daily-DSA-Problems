@@ -1,0 +1,32 @@
+📍 Problem: Combinations
+
+Question:
+Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
+
+Code:
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        generate(result, tempList, 1, n, k);
+        return result;
+    }
+
+    public void generate(List<List<Integer>> result, List<Integer> tempList,
+                         int start, int n, int k) {
+        if (tempList.size() == k) {
+            result.add(new ArrayList<>(tempList));
+            return;
+        }
+        for (int i = start; i <= n; i++) {
+            tempList.add(i);
+            generate(result, tempList, i + 1, n, k);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+
+
+Time Complexity: O(C(n, k))
+Space Complexity: O(k)
