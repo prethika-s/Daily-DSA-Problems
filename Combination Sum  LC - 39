@@ -1,0 +1,34 @@
+📍 Problem : Combination Sum  
+
+Question:  
+Given an array of distinct integers `candidates` and a target integer `target`, return a list of all unique combinations of `candidates` where the chosen numbers sum to `target`. You may use each number unlimited times.  
+
+Code:  
+```java
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        ArrayList<Integer> tempList = new ArrayList<>();
+        int n = candidates.length;
+        recursiveSum(0, target, n, tempList, result, candidates);
+        return result;
+    }
+
+    public void recursiveSum(int index, int target, int n, List<Integer> temp,
+                             List<List<Integer>> result, int[] candidates) {
+        if (index == n) {
+            if (target == 0) {
+                result.add(new ArrayList<>(temp));
+            }
+            return;
+        }
+        if (candidates[index] <= target) {
+            temp.add(candidates[index]);
+            recursiveSum(index, target - candidates[index], n, temp, result, candidates);
+            temp.remove(temp.size() - 1);
+        }
+        recursiveSum(index + 1, target, n, temp, result, candidates);
+    }
+}
+Time Complexity: O(2^t) (t = target, depends on branching)
+Space Complexity: O(t) (recursion + temp list)
