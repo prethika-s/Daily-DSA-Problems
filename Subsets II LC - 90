@@ -1,0 +1,33 @@
+📍 Problem: Subsets II
+
+Question:
+Given an integer array nums that may contain duplicates, return all possible subsets (the power set). The solution must not contain duplicate subsets.
+
+Code:
+
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        Arrays.sort(nums);
+        result.add(new ArrayList<>(tempList));
+        combinations(result, tempList, 0, nums);
+        return result;
+    }
+
+    public void combinations(List<List<Integer>> result,
+                             List<Integer> tempList, int index, int[] nums) {
+        for (int i = index; i < nums.length; i++) {
+            tempList.add(nums[i]);
+            if (!result.contains(tempList)) {
+                result.add(new ArrayList<>(tempList));
+            }
+            combinations(result, tempList, i + 1, nums);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+
+
+Time Complexity: O(2^n · n) (because of contains() check)
+Space Complexity: O(n)
