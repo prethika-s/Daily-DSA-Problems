@@ -1,0 +1,33 @@
+📍 Problem: Subsets
+
+Question:
+Given an integer array nums, return all possible subsets (the power set).
+
+Code:
+
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        result.add(new ArrayList<>(tempList));
+        combinations(0, nums.length, result, tempList, nums);
+        return result;
+    }
+
+    public void combinations(int index, int n,
+                             List<List<Integer>> result, List<Integer> tempList, int[] nums) {
+        if (tempList.size() == n) {
+            return;
+        }
+        for (int i = index; i < n; i++) {
+            tempList.add(nums[i]);
+            result.add(new ArrayList<>(tempList));
+            combinations(i + 1, n, result, tempList, nums);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+
+
+Time Complexity: O(2^n)
+Space Complexity: O(n)
